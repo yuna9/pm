@@ -25,15 +25,19 @@ protocol WeatherServiceDelegate: AnyObject {
 class WeatherService {
     weak var delegate: WeatherServiceDelegate?
     
-    func weather(at location: CLLocation) {
+    func weather(atCoords location: CLLocation) {
         let (city, woeID) = findCity(at: location)
         guard city != nil else {
             delegate?.weatherFailed(self)
             return
         }
-        
-        let weatherURL = URL(string: mwBase + weatherEndpoint + String(woeID!))
+        weather(forWoe: woeID!)
+    }
+    
+    func weather(forWoe woeID: Int) {
+        let weatherURL = URL(string: mwBase + weatherEndpoint + String(woeID))
         let data = sendSynchronous(to: weatherURL!)
+        
         guard let data = data else {
             delegate?.weatherFailed(self)
             return
@@ -41,8 +45,13 @@ class WeatherService {
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let report: WeatherReport = try! decoder.decode(WeatherReport.self, from: data)
-        delegate?.weather(self, report)
+        do {
+            let report: WeatherReport = try decoder.decode(WeatherReport.self, from: data)
+            delegate?.weather(self, report)
+        } catch {
+            print("decoding weather report failed")
+            delegate?.weatherFailed(self)
+        }
     }
     
     func findCity(at location: CLLocation) -> (String?, Int?) {

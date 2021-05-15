@@ -1,5 +1,5 @@
 //
-//  CurrentLocationViewController.swift
+//  WeatherViewController.swift
 //  PageMe
 //
 //  Created by Yuna Kim on 2/9/21.
@@ -8,9 +8,9 @@
 import CoreLocation
 import UIKit
 
-class CurrentLocationViewController: UIViewController,
-                                     CLLocationManagerDelegate,
-                                     WeatherServiceDelegate {
+class WeatherViewController: UIViewController,
+                             CLLocationManagerDelegate,
+                             WeatherServiceDelegate {
     
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -32,7 +32,11 @@ class CurrentLocationViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherService.delegate = self
-        getLocation()
+        if let customLocation = customLocation {
+            weatherService.weather(forWoe: customLocation.woeID)
+        } else {
+            getLocation()
+        }
     }
     
     // MARK:- Actions
@@ -184,7 +188,7 @@ class CurrentLocationViewController: UIViewController,
                 timer.invalidate()
             }
             if let location = location {
-                weatherService.weather(at: location)
+                weatherService.weather(atCoords: location)
             }
         }
     }
