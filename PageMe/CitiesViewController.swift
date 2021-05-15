@@ -11,10 +11,21 @@ import CoreData
 class CitiesViewController: UITableViewController,
                             AddLocationDelegate {
     var managedObjectContext: NSManagedObjectContext!
+    var places = [Place]()
     var cities = [Location]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let fetchRequest = NSFetchRequest<Place>()
+        fetchRequest.entity = Place.entity()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        do {
+            places = try managedObjectContext.fetch(fetchRequest)
+        } catch {
+            fatalCoreDataError(error)
+        }
+        cities = places.map { Location(name: $0.name, woeID: Int($0.woeID)) }
     }
     
     // MARK: - Navigation
@@ -24,19 +35,22 @@ class CitiesViewController: UITableViewController,
             controller.delegate = self
         }
     }
-    
+
     // MARK: - AddLocation Delegate
     func addLocation(_ controller: AddLocationViewController, didFinishAdding location: Location) {
         cities.append(location)
-        tableView.reloadData()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    // MARK: - Actions
-    @IBAction func addCity() {
-        let loc = Location(name: "New York",
-                           woeID: 2459115)
-        cities.append(loc)
+        let place = Place(context: managedObjectContext)
+        place.name = location.name
+        place.woeID = Int32(location.woeID)
+        do {
+            try managedObjectContext.save()
+            afterDelay(0.6) {
+                self.tableView.reloadData()
+                self.dismiss(animated: true, completion: nil)
+            }
+        } catch {
+            fatalCoreDataError(error)
+        }
     }
 
     // MARK: - Table view data source

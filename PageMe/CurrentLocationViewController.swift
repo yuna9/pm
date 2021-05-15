@@ -17,8 +17,9 @@ class CurrentLocationViewController: UIViewController,
     @IBOutlet weak var conditionsLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var hiLoLabel: UILabel!
-
+    
     var timer: Timer?
+    var customLocation: Location?
     
     let locationManager = CLLocationManager()
     var location: CLLocation?
@@ -63,16 +64,10 @@ class CurrentLocationViewController: UIViewController,
         weatherReport = report
         updateLabels()
     }
+    func weatherFailed(_ service: WeatherService) {}
+    func search(_ service: WeatherService, _ found: [Location]) {}
+    func searchFailed(_ service: WeatherService) {}
     
-    func weatherFailed(_ service: WeatherService) {
-    }
-    
-    func search(_ service: WeatherService, _ found: [Location]) {
-    }
-    
-    func searchFailed(_ service: WeatherService) {
-    }
-
     // MARK: - CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager,
                          didFailWithError error: Error) {
@@ -94,13 +89,11 @@ class CurrentLocationViewController: UIViewController,
             return
         }
         
-        
-        var distance = CLLocationDistance(
-            Double.greatestFiniteMagnitude)
+        var distance = CLLocationDistance(Double.greatestFiniteMagnitude)
         if let location = location {
-          distance = newLocation.distance(from: location)
+            distance = newLocation.distance(from: location)
         }
-
+        
         if location == nil || location!.horizontalAccuracy > newLocation.horizontalAccuracy {
             lastLocationError = nil
             location = newLocation
@@ -108,7 +101,6 @@ class CurrentLocationViewController: UIViewController,
             if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
                 print("*** We're done!")
                 stopLocationManager()
-                weatherService.weather(at: newLocation)
             }
             updateLabels()
         } else if distance < 1 {
@@ -130,8 +122,7 @@ class CurrentLocationViewController: UIViewController,
         } else {
             let statusMessage: String
             if let error = lastLocationError as NSError? {
-                if error.domain == kCLErrorDomain &&
-                    error.code == CLError.denied.rawValue {
+                if error.domain == kCLErrorDomain && error.code == CLError.denied.rawValue {
                     statusMessage = "Location Services Disabled"
                 } else {
                     statusMessage = "Error Getting Location"
@@ -141,7 +132,7 @@ class CurrentLocationViewController: UIViewController,
             } else if updatingLocation {
                 statusMessage = "Searching..."
             } else {
-                statusMessage = "Tap ’Get My Location’ to Start"
+                statusMessage = ""
             }
             messageLabel.text = statusMessage
         }
@@ -192,6 +183,9 @@ class CurrentLocationViewController: UIViewController,
             if let timer = timer {
                 timer.invalidate()
             }
+            if let location = location {
+                weatherService.weather(at: location)
+            }
         }
     }
     
@@ -200,9 +194,9 @@ class CurrentLocationViewController: UIViewController,
         if location == nil {
             stopLocationManager()
             lastLocationError = NSError(
-                                domain: "MyLocationsErrorDomain",
-                                code: 1,
-                                userInfo: nil)
+                domain: "PageMeErrorDomain",
+                code: 1,
+                userInfo: nil)
             updateLabels()
         }
     }

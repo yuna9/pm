@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol AddLocationDelegate: AnyObject {
     func addLocation(_ controller: AddLocationViewController,
@@ -16,7 +17,7 @@ class AddLocationViewController: UITableViewController,
                                  UISearchBarDelegate,
                                  WeatherServiceDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
-    
+
     var delegate: AddLocationDelegate?
     var weatherService = WeatherService()
     var searchResults = [Location]()
