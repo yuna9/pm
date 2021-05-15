@@ -7,6 +7,7 @@
 
 import CoreLocation
 import UIKit
+import AudioToolbox
 
 class WeatherViewController: UIViewController,
                              CLLocationManagerDelegate,
@@ -28,19 +29,31 @@ class WeatherViewController: UIViewController,
     
     var weatherService = WeatherService()
     var weatherReport: WeatherReport?
+    var gettingWeather = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherService.delegate = self
-        if let customLocation = customLocation {
-            weatherService.weather(forWoe: customLocation.woeID)
+        if customLocation != nil {
+            getWeather()
         } else {
             getLocation()
         }
+        updateLabels()
     }
     
-    // MARK:- Actions
-    @IBAction func getLocation() {
+    func getWeather() {
+        gettingWeather = true
+        DispatchQueue.main.async {
+            if let customLocation = self.customLocation {
+                self.weatherService.weather(forWoe: customLocation.woeID)
+            } else if let location = self.location {
+                self.weatherService.weather(atCoords: location)
+            }
+        }
+    }
+    
+    func getLocation() {
         switch locationManager.authorizationStatus {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -64,9 +77,10 @@ class WeatherViewController: UIViewController,
     // MARK: - WeatherServiceDelegate
     func weather(_ service: WeatherService,
                  _ report: WeatherReport) {
-        print(report)
         weatherReport = report
+        gettingWeather = false
         updateLabels()
+        AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) {}
     }
     func weatherFailed(_ service: WeatherService) {}
     func search(_ service: WeatherService, _ found: [Location]) {}
@@ -103,7 +117,7 @@ class WeatherViewController: UIViewController,
             location = newLocation
             
             if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
-                print("*** We're done!")
+                print("Got good location")
                 stopLocationManager()
             }
             updateLabels()
@@ -111,7 +125,7 @@ class WeatherViewController: UIViewController,
             let timeInterval = newLocation.timestamp.timeIntervalSince(
                 location!.timestamp)
             if timeInterval > 10 {
-                print("*** Force done!")
+                print("Task timed out, stop locating")
                 stopLocationManager()
                 updateLabels()
             }
@@ -127,14 +141,14 @@ class WeatherViewController: UIViewController,
             let statusMessage: String
             if let error = lastLocationError as NSError? {
                 if error.domain == kCLErrorDomain && error.code == CLError.denied.rawValue {
-                    statusMessage = "Location Services Disabled"
+                    statusMessage = "Location Services is disabled"
                 } else {
-                    statusMessage = "Error Getting Location"
+                    statusMessage = "Failed to get your location"
                 }
             } else if !CLLocationManager.locationServicesEnabled() {
-                statusMessage = "Location Services Disabled"
-            } else if updatingLocation {
-                statusMessage = "Searching..."
+                statusMessage = "Location Services is disabled"
+            } else if updatingLocation || gettingWeather {
+                statusMessage = "Getting the latest weather..."
             } else {
                 statusMessage = ""
             }
@@ -142,12 +156,28 @@ class WeatherViewController: UIViewController,
         }
         
         if let report = weatherReport {
+            cityLabel.isHidden = false
+            conditionsLabel.isHidden = false
+            tempLabel.isHidden = false
+            hiLoLabel.isHidden = false
+
             cityLabel.text = report.city
             let forecast = report.forecasts.first!
             conditionsLabel.text = forecast.conditions
-            tempLabel.text = String(forecast.currentTemp)
-            hiLoLabel.text = "Hi:\(forecast.maxTemp) Lo:\(forecast.minTemp)"
+            tempLabel.text = tempText(forecast.currentTemp, false)
+            hiLoLabel.text = "Hi:\(tempText(forecast.maxTemp, true)) Lo:\(tempText(forecast.maxTemp, true))"
         }
+    }
+    
+    // Formats a Float degrees celsius as a whole number degrees Fahrenheit,
+    // with or without degrees notation.
+    func tempText(_ celsius: Float, _ bare: Bool) -> String {
+        let fahrenheit = Int(round(celsius * 1.8 + 32))
+        var output = String(fahrenheit)
+        if !bare {
+            output += "°F"
+        }
+        return output
     }
     
     func showLocationServicesDeniedAlert() {
@@ -187,14 +217,12 @@ class WeatherViewController: UIViewController,
             if let timer = timer {
                 timer.invalidate()
             }
-            if let location = location {
-                weatherService.weather(atCoords: location)
-            }
+            getWeather()
         }
     }
     
     @objc func didTimeOut() {
-        print("***Time out")
+        print("Timed out")
         if location == nil {
             stopLocationManager()
             lastLocationError = NSError(

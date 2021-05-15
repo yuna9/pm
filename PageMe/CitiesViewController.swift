@@ -30,9 +30,18 @@ class CitiesViewController: UITableViewController,
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddLocation" {
+        switch segue.identifier {
+        case "AddLocation":
             let controller = segue.destination as! AddLocationViewController
             controller.delegate = self
+        case "WeatherView":
+            let rowIndex = tableView.indexPathForSelectedRow!.row
+            if rowIndex != 0 {
+                let controller = segue.destination as! WeatherViewController
+                controller.customLocation = cities[rowIndex-1]
+            }
+        default:
+            break
         }
     }
 
@@ -70,6 +79,10 @@ class CitiesViewController: UITableViewController,
         let location = cities[indexPath.row-1]
         label.text = location.name
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     /*

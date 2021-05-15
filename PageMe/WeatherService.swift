@@ -57,8 +57,6 @@ class WeatherService {
     func findCity(at location: CLLocation) -> (String?, Int?) {
         let lat = location.coordinate.latitude
         let long = location.coordinate.longitude
-        
-        print("Lat: \(lat)\tLong: \(long)")
 
         let searchURL = URL(string: mwBase + searchEndpoint + "?lattlong=\(lat),\(long)")
         let data = sendSynchronous(to: searchURL!)
@@ -90,7 +88,6 @@ class WeatherService {
         
         let decoder = JSONDecoder()
         let results: [Location] = try! decoder.decode([Location].self, from: data)
-        print(results)
         delegate?.search(self, results)
     }
     
