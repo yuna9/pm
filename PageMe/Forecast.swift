@@ -47,12 +47,13 @@ struct Forecast: Codable {
              airPressure,humidity, visibility, predictability
         case date = "applicableDate"
         case conditions = "weatherStateName"
+        case conditionsAbbr = "weatherStateAbbr"
         case windCompass = "windDirectionCompass"
         case currentTemp = "theTemp"
     }
     
     let date: String // TODO: Date
-    let conditions: String
+    let conditions, conditionsAbbr: String
     var windSpeed, windDirection: Float
     let windCompass: String
     let minTemp, maxTemp, currentTemp: Float
@@ -66,5 +67,10 @@ struct Forecast: Codable {
         output += "\(currentTemp)\n"
         output += "H:\(maxTemp) L:\(minTemp)\n"
         return output
+    }
+
+    func conditionsIconURL () -> URL? {
+        let mwIconBase = "https://www.metaweather.com/static/img/weather/"
+        return URL(string: mwIconBase + conditionsAbbr + ".svg")
     }
 }

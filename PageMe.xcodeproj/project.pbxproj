@@ -76,7 +76,6 @@
 				AE13C5CB25D32C4100C7DCB0 /* AppDelegate.swift */,
 				AE13C5D425D32C4200C7DCB0 /* Assets.xcassets */,
 				AE11C134264F52D500DB1986 /* CitiesViewController.swift */,
-				AE13C5CF25D32C4100C7DCB0 /* WeatherViewController.swift */,
 				AE378C09264FE87C0014D992 /* DataModel.xcdatamodeld */,
 				AE60E42A264FA3DC0002CDF0 /* Forecast.swift */,
 				AE514D59265051AF004CBE0D /* Functions.swift */,
@@ -87,6 +86,7 @@
 				AE514D3326504C20004CBE0D /* Place+CoreDataProperties.swift */,
 				AE13C5CD25D32C4100C7DCB0 /* SceneDelegate.swift */,
 				AEEE1063264F41290079E563 /* WeatherService.swift */,
+				AE13C5CF25D32C4100C7DCB0 /* WeatherViewController.swift */,
 			);
 			path = PageMe;
 			sourceTree = "<group>";

@@ -8,6 +8,7 @@
 import CoreLocation
 import UIKit
 import AudioToolbox
+import WebKit
 
 class WeatherViewController: UIViewController,
                              CLLocationManagerDelegate,
@@ -18,7 +19,8 @@ class WeatherViewController: UIViewController,
     @IBOutlet weak var conditionsLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var hiLoLabel: UILabel!
-    
+    @IBOutlet weak var webView: WKWebView!
+
     var timer: Timer?
     var customLocation: Location?
     
@@ -39,7 +41,7 @@ class WeatherViewController: UIViewController,
         } else {
             getLocation()
         }
-        updateLabels()
+        updateView()
     }
     
     func getWeather() {
@@ -71,7 +73,7 @@ class WeatherViewController: UIViewController,
             lastLocationError = nil
             startLocationManager()
         }
-        updateLabels()
+        updateView()
     }
     
     // MARK: - WeatherServiceDelegate
@@ -79,7 +81,7 @@ class WeatherViewController: UIViewController,
                  _ report: WeatherReport) {
         weatherReport = report
         gettingWeather = false
-        updateLabels()
+        updateView()
         AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) {}
     }
     func weatherFailed(_ service: WeatherService) {}
@@ -96,7 +98,7 @@ class WeatherViewController: UIViewController,
         }
         lastLocationError = error
         stopLocationManager()
-        updateLabels()
+        updateView()
     }
     
     func locationManager(_ manager: CLLocationManager,
@@ -120,21 +122,21 @@ class WeatherViewController: UIViewController,
                 print("Got good location")
                 stopLocationManager()
             }
-            updateLabels()
+            updateView()
         } else if distance < 1 {
             let timeInterval = newLocation.timestamp.timeIntervalSince(
                 location!.timestamp)
             if timeInterval > 10 {
                 print("Task timed out, stop locating")
                 stopLocationManager()
-                updateLabels()
+                updateView()
             }
         }
     }
     
     // MARK:- Helper Methods
     
-    func updateLabels() {
+    func updateView() {
         if location != nil {
             messageLabel.text = ""
         } else {
@@ -166,6 +168,13 @@ class WeatherViewController: UIViewController,
             conditionsLabel.text = forecast.conditions
             tempLabel.text = tempText(forecast.currentTemp, false)
             hiLoLabel.text = "Hi:\(tempText(forecast.maxTemp, true)) Lo:\(tempText(forecast.minTemp, true))"
+
+            if let url = forecast.conditionsIconURL() {
+                webView.load(URLRequest(url: url))
+                UIView.animate(withDuration: 0.75) {
+                    self.webView.alpha = 1.0
+                }
+            }
         }
     }
     
@@ -229,7 +238,7 @@ class WeatherViewController: UIViewController,
                 domain: "PageMeErrorDomain",
                 code: 1,
                 userInfo: nil)
-            updateLabels()
+            updateView()
         }
     }
 }
