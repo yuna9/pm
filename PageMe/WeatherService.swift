@@ -42,7 +42,7 @@ class WeatherService {
             delegate?.weatherFailed(self)
             return
         }
-        
+
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
@@ -78,7 +78,12 @@ class WeatherService {
     }
     
     func searchLocations(_ searchTerm: String) {
-        let searchURL = URL(string: mwBase + searchEndpoint + "?query=\(searchTerm)")
+        let term = searchTerm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        guard term != nil else {
+            return
+        }
+
+        let searchURL = URL(string: mwBase + searchEndpoint + "?query=\(term!)")
         let data = sendSynchronous(to: searchURL!)
         
         guard let data = data else {

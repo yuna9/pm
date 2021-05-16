@@ -165,7 +165,7 @@ class WeatherViewController: UIViewController,
             let forecast = report.forecasts.first!
             conditionsLabel.text = forecast.conditions
             tempLabel.text = tempText(forecast.currentTemp, false)
-            hiLoLabel.text = "Hi:\(tempText(forecast.maxTemp, true)) Lo:\(tempText(forecast.maxTemp, true))"
+            hiLoLabel.text = "Hi:\(tempText(forecast.maxTemp, true)) Lo:\(tempText(forecast.minTemp, true))"
         }
     }
     

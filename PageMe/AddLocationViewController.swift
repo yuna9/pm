@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 
+let debounceInterval: TimeInterval = 0.3
+
 protocol AddLocationDelegate: AnyObject {
     func addLocation(_ controller: AddLocationViewController,
                      didFinishAdding location: Location)
@@ -22,6 +24,8 @@ class AddLocationViewController: UITableViewController,
     var weatherService = WeatherService()
     var searchResults = [Location]()
     
+    var debounceTimer: Timer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherService.delegate = self
@@ -68,15 +72,33 @@ class AddLocationViewController: UITableViewController,
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("search clicked", searchBar.text!)
-        weatherService.searchLocations(searchBar.text!)
+        search()
     }
     
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
         print("text change", searchText)
+        if let debounceTimer = debounceTimer {
+            debounceTimer.invalidate()
+        }
+        debounceTimer = Timer.scheduledTimer(withTimeInterval: debounceInterval,
+                                             repeats: false,
+                                             block: {(t: Timer) in self.search()})
+    }
+
+    func search() {
+        if let text = searchBar.text {
+            if text != "" {
+                weatherService.searchLocations(text)
+            } else {
+                searchResults = [Location]()
+                tableView.reloadData()
+            }
+        }
     }
     
     // MARK: - Actions
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let location = searchResults[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)

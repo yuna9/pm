@@ -10,7 +10,7 @@
 		AE11C135264F52D500DB1986 /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE11C134264F52D500DB1986 /* CitiesViewController.swift */; };
 		AE13C5CC25D32C4100C7DCB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE13C5CB25D32C4100C7DCB0 /* AppDelegate.swift */; };
 		AE13C5CE25D32C4100C7DCB0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE13C5CD25D32C4100C7DCB0 /* SceneDelegate.swift */; };
-		AE13C5D025D32C4100C7DCB0 /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE13C5CF25D32C4100C7DCB0 /* CurrentLocationViewController.swift */; };
+		AE13C5D025D32C4100C7DCB0 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE13C5CF25D32C4100C7DCB0 /* WeatherViewController.swift */; };
 		AE13C5D325D32C4100C7DCB0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE13C5D125D32C4100C7DCB0 /* Main.storyboard */; };
 		AE13C5D525D32C4200C7DCB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE13C5D425D32C4200C7DCB0 /* Assets.xcassets */; };
 		AE13C5D825D32C4200C7DCB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE13C5D625D32C4200C7DCB0 /* LaunchScreen.storyboard */; };
@@ -28,7 +28,7 @@
 		AE13C5C825D32C4100C7DCB0 /* PageMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PageMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE13C5CB25D32C4100C7DCB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE13C5CD25D32C4100C7DCB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AE13C5CF25D32C4100C7DCB0 /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
+		AE13C5CF25D32C4100C7DCB0 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		AE13C5D225D32C4100C7DCB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AE13C5D425D32C4200C7DCB0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE13C5D725D32C4200C7DCB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -72,21 +72,21 @@
 		AE13C5CA25D32C4100C7DCB0 /* PageMe */ = {
 			isa = PBXGroup;
 			children = (
-				AE13C5D125D32C4100C7DCB0 /* Main.storyboard */,
 				AE378C07264FA98A0014D992 /* AddLocationViewController.swift */,
-				AE13C5CF25D32C4100C7DCB0 /* CurrentLocationViewController.swift */,
+				AE13C5CB25D32C4100C7DCB0 /* AppDelegate.swift */,
+				AE13C5D425D32C4200C7DCB0 /* Assets.xcassets */,
 				AE11C134264F52D500DB1986 /* CitiesViewController.swift */,
+				AE13C5CF25D32C4100C7DCB0 /* WeatherViewController.swift */,
+				AE378C09264FE87C0014D992 /* DataModel.xcdatamodeld */,
 				AE60E42A264FA3DC0002CDF0 /* Forecast.swift */,
 				AE514D59265051AF004CBE0D /* Functions.swift */,
-				AEEE1063264F41290079E563 /* WeatherService.swift */,
-				AE378C09264FE87C0014D992 /* DataModel.xcdatamodeld */,
+				AE13C5D925D32C4200C7DCB0 /* Info.plist */,
+				AE13C5D625D32C4200C7DCB0 /* LaunchScreen.storyboard */,
+				AE13C5D125D32C4100C7DCB0 /* Main.storyboard */,
 				AE514D3226504C20004CBE0D /* Place+CoreDataClass.swift */,
 				AE514D3326504C20004CBE0D /* Place+CoreDataProperties.swift */,
-				AE13C5CB25D32C4100C7DCB0 /* AppDelegate.swift */,
 				AE13C5CD25D32C4100C7DCB0 /* SceneDelegate.swift */,
-				AE13C5D425D32C4200C7DCB0 /* Assets.xcassets */,
-				AE13C5D625D32C4200C7DCB0 /* LaunchScreen.storyboard */,
-				AE13C5D925D32C4200C7DCB0 /* Info.plist */,
+				AEEE1063264F41290079E563 /* WeatherService.swift */,
 			);
 			path = PageMe;
 			sourceTree = "<group>";
@@ -167,7 +167,7 @@
 				AE514D3526504C20004CBE0D /* Place+CoreDataProperties.swift in Sources */,
 				AE514D5A265051AF004CBE0D /* Functions.swift in Sources */,
 				AE11C135264F52D500DB1986 /* CitiesViewController.swift in Sources */,
-				AE13C5D025D32C4100C7DCB0 /* CurrentLocationViewController.swift in Sources */,
+				AE13C5D025D32C4100C7DCB0 /* WeatherViewController.swift in Sources */,
 				AE378C08264FA98A0014D992 /* AddLocationViewController.swift in Sources */,
 				AE13C5CC25D32C4100C7DCB0 /* AppDelegate.swift in Sources */,
 				AE60E42B264FA3DC0002CDF0 /* Forecast.swift in Sources */,

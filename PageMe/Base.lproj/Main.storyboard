@@ -18,20 +18,25 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CityIdentifier" id="J85-Xe-Q2v">
-                                <rect key="frame" x="0.0" y="24.5" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="24.5" width="375" height="42.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="J85-Xe-Q2v" id="ah2-5B-BBM">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="42.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTa-or-B6U">
-                                            <rect key="frame" x="16" y="11" width="343" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTa-or-B6U">
+                                            <rect key="frame" x="16" y="11" width="326" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wTa-or-B6U" firstAttribute="top" secondItem="ah2-5B-BBM" secondAttribute="top" constant="11" id="diK-7r-N0e"/>
+                                        <constraint firstAttribute="trailing" secondItem="wTa-or-B6U" secondAttribute="trailing" constant="7.5" id="kbo-Bc-Ayy"/>
+                                        <constraint firstAttribute="bottom" secondItem="wTa-or-B6U" secondAttribute="bottom" constant="10.5" id="rtT-X6-uVS"/>
+                                        <constraint firstItem="wTa-or-B6U" firstAttribute="leading" secondItem="ah2-5B-BBM" secondAttribute="leading" constant="16" id="uBc-3u-zi1"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="8qq-lY-Ova" kind="showDetail" identifier="WeatherView" id="2jg-06-s9i"/>
@@ -55,7 +60,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ODh-am-T2c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="698" y="285"/>
+            <point key="canvasLocation" x="696.79999999999995" y="284.70764617691157"/>
         </scene>
         <!--Add Location View Controller-->
         <scene sceneID="0gE-ZR-Beo">
@@ -75,20 +80,25 @@
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ResultIdentifier" id="dWp-ow-pso">
-                                <rect key="frame" x="0.0" y="109.5" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="109.5" width="375" height="42.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dWp-ow-pso" id="3ga-7K-6Xk">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="42.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvN-9l-Sde">
-                                            <rect key="frame" x="16" y="11" width="351" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvN-9l-Sde">
+                                            <rect key="frame" x="16" y="11" width="343" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="gvN-9l-Sde" firstAttribute="leading" secondItem="3ga-7K-6Xk" secondAttribute="leading" constant="16" id="Ekh-h3-lrf"/>
+                                        <constraint firstAttribute="trailing" secondItem="gvN-9l-Sde" secondAttribute="trailing" constant="16" id="Joy-5c-YII"/>
+                                        <constraint firstItem="gvN-9l-Sde" firstAttribute="top" secondItem="3ga-7K-6Xk" secondAttribute="top" constant="11" id="biC-DY-cKZ"/>
+                                        <constraint firstAttribute="bottom" secondItem="gvN-9l-Sde" secondAttribute="bottom" constant="10.5" id="h4h-Hm-3U9"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -103,7 +113,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zgW-16-BID" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="697" y="990"/>
+            <point key="canvasLocation" x="696.79999999999995" y="989.95502248875573"/>
         </scene>
         <!--Weather View Controller-->
         <scene sceneID="NlO-gg-wxk">
