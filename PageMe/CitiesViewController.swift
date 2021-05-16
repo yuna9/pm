@@ -47,6 +47,13 @@ class CitiesViewController: UITableViewController,
 
     // MARK: - AddLocation Delegate
     func addLocation(_ controller: AddLocationViewController, didFinishAdding location: Location) {
+        // Disallow duplicates
+        let dupe = cities.contains { element in return element.woeID == location.woeID }
+        guard !dupe else {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+
         cities.append(location)
         let place = Place(context: managedObjectContext)
         place.name = location.name
